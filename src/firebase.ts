@@ -1,35 +1,43 @@
 import firebase from "firebase/compat/app";
-
 import "firebase/auth";
-import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, limit } from "firebase/firestore";
-
-import { ref, onUnmounted, computed } from "vue";
-import { FirebaseOptions } from "firebase/app";
-import { getAuth, signOut as signOutFunction, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, User } from "firebase/auth";
-
-interface Message {
-  userName: string;
-  userId: string;
-  userPhotoURL: string;
-  text: string;
-  createdAt: number;
-}
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCXvatleolAvHiM7KvlRx6N0PW5HyTwYK0",
-  authDomain: "vue-chat-81b86.firebaseapp.com",
-  projectId: "vue-chat-81b86",
-  storageBucket: "vue-chat-81b86.appspot.com",
-  messagingSenderId: "1064179897888",
-  appId: "1:1064179897888:web:03014049636d596ad20e45",
-  measurementId: "G-77TF20Z8FB",
-} as FirebaseOptions;
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp,
+  onSnapshot,
+  query,
+  orderBy,
+  limit,
+  QuerySnapshot,
+  DocumentData,
+  CollectionReference
+} from "firebase/firestore";
+import { ref, onUnmounted, computed, Ref, ComputedRef } from "vue";
+import {
+  getAuth,
+  signOut
+  as
+  signOutFunction,
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  User
+} from "firebase/auth";
+import { Message, MessageWithId } from "./helper/types/message";
+import { firebaseConfig } from "./helper/constants/firebase-config";
+import { MESSAGES_PATH } from "./helper/constants/firebase";
 
 firebase.initializeApp(firebaseConfig);
 
 const auth = getAuth();
 
-export function useAuth() {
+export function useAuth(): {
+  user: Ref<User | null>;
+  isLogin: ComputedRef<boolean>;
+  signIn: () => Promise<void>;
+  signOut: () => Promise<void>;
+} {
   const user = ref<User | null>(null);
   const unsubscribe = onAuthStateChanged(auth, (_user: User | null) => {
     user.value = _user;
@@ -49,15 +57,22 @@ export function useAuth() {
 }
 
 const firestore = getFirestore();
-const messagesCollection = collection(firestore, "messages");
-const messagesQuery = query(messagesCollection, orderBy("createdAt", "desc"), limit(100));
+const messagesCollection = collection(firestore, MESSAGES_PATH) as CollectionReference<Message, DocumentData>;
+const messagesQuery = query<Message, DocumentData>(messagesCollection, orderBy("createdAt", "desc"), limit(100));
 
-export function useChat() {
-  const messages = ref<any>([]);
-  const unsubscribe = onSnapshot(messagesQuery,
-    snapshot => messages.value = snapshot.docs
-      .map((doc) => ({ id: doc.id, ...doc.data() }))
-      .reverse()
+function snapshotProcessing(snapshot: QuerySnapshot<Message, DocumentData>): MessageWithId[] {
+  return snapshot.docs
+    .map((doc) => ({ id: doc.id, ...doc.data() }))
+    .reverse();
+}
+
+export function useChat(): {
+  messages: Ref<MessageWithId[]>;
+  sendMessage: (text: string) => void;
+} {
+  const messages = ref<MessageWithId[]>([]);
+  const unsubscribe = onSnapshot<Message, DocumentData>(messagesQuery,
+    snapshot => messages.value = snapshotProcessing(snapshot)
   );
   onUnmounted(unsubscribe);
 
@@ -66,7 +81,7 @@ export function useChat() {
     if (!isLogin.value) return;
     if (!user?.value) return;
     const { photoURL, uid, displayName } = user.value;
-    addDoc(collection(firestore, "messages"), {
+    addDoc(collection(firestore, MESSAGES_PATH), {
       userName: displayName,
       userId: uid,
       userPhotoURL: photoURL,
