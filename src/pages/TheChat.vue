@@ -32,8 +32,8 @@ import { ref, watch, nextTick, defineComponent } from "vue";
 import ChatService from "../firebase/ChatService";
 import AuthService from "../firebase/AuthService";
 
-import SendIcon from "./SendIcon.vue";
-import TheMessage from "./TheMessage.vue";
+import SendIcon from "../components/SendIcon.vue";
+import TheMessage from "../components/TheMessage.vue";
 
 export default defineComponent({
   components: { TheMessage, SendIcon },
