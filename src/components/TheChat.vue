@@ -29,7 +29,8 @@
 
 <script lang="ts">
 import { ref, watch, nextTick, defineComponent } from "vue";
-import { useAuth, useChat } from "../firebase";
+import ChatService from "../firebase/ChatService";
+import AuthService from "../firebase/AuthService";
 
 import SendIcon from "./SendIcon.vue";
 import TheMessage from "./TheMessage.vue";
@@ -37,8 +38,8 @@ import TheMessage from "./TheMessage.vue";
 export default defineComponent({
   components: { TheMessage, SendIcon },
   setup() {
-    const { user, isLogin } = useAuth();
-    const { messages, sendMessage } = useChat();
+    const messages = ChatService.messages;
+    const sendMessage = ChatService.sendMessage;
 
     const bottom = ref(null);
     watch(
@@ -57,12 +58,12 @@ export default defineComponent({
       message.value = "";
     };
 
-    return { user, isLogin, messages, bottom, message, send };
+    return { user: AuthService.user, isLogin: AuthService.isLogin, messages, bottom, message, send };
   },
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .container-sm {
   max-width: 36rem;
   width: 100%;

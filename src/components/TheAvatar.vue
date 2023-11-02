@@ -10,7 +10,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .avatar {
   height: 2rem;
   width: 2rem;

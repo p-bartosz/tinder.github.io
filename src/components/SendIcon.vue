@@ -14,7 +14,7 @@
   </svg>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .icon-send {
   color: rgba(107,114,128,var(--tw-text-opacity));
   width: 3rem;

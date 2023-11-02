@@ -19,16 +19,29 @@
 
 <script lang="ts">
 import TheAvatar from "./TheAvatar.vue";
-import { useAuth } from "../firebase";
+import AuthService from "../firebase/AuthService";
 import { defineComponent } from "vue";
+import { User } from "@firebase/auth";
 
 export default defineComponent({
+  name: 'TheNav',
   components: { TheAvatar: TheAvatar },
-  setup() {
-    const { user, isLogin, signOut, signIn } = useAuth();
-    
-    return { user, isLogin, signOut, signIn };
+  computed: {
+    isLogin(): boolean {
+      return AuthService.isLogin?.value;
+    },
+    user(): User | null {
+      return AuthService.user?.value;
+    },
   },
+  methods: {
+    signIn(): void {
+      AuthService.signIn();
+    },
+    signOut(): void {
+      AuthService.signOut();
+    }
+  }
 });
 </script>
 
