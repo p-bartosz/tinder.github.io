@@ -7,6 +7,9 @@ import {
   User,
   signOut,
   Auth,
+  createUserWithEmailAndPassword,
+  EmailAuthProvider,
+  UserCredential,
 } from "firebase/auth";
 import './FirebaseService'
 
@@ -29,6 +32,12 @@ class AuthService {
   async signIn(): Promise<void> {
     const googleProvider = new GoogleAuthProvider();
     await signInWithPopup(this.auth, googleProvider);
+  }
+
+  async createUserWithEmailAndPassword(email: string, password: string): Promise<UserCredential> {
+    return createUserWithEmailAndPassword(this.auth, email, password);
+    // const emailProvider = new EmailAuthProvider();
+    // await signInWithPopup(this.auth, emailProvider);
   }
 
   async signOut(): Promise<void> {

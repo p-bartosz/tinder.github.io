@@ -31,9 +31,9 @@ class ChatService {
   async sendMessage(text: string): Promise<void> {
     const user = AuthService.user;
     if (!user?.value || !AuthService.isLogin.value) return;
-    const { photoURL, uid, displayName } = user.value;
+    const { photoURL, uid, displayName, email } = user.value;
     await addDoc(collection(FirebaseService.firestore, MESSAGES_PATH), {
-      userName: displayName,
+      userName: displayName || email,
       userId: uid,
       userPhotoURL: photoURL,
       text: text,

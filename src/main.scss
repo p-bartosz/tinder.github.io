@@ -5,11 +5,13 @@
   --tw-ring-color: rgba(59,130,246,0.5);
   --tw-ring-offset-shadow: 0 0 transparent;
   --tw-ring-shadow: 0 0 transparent;
+  --nav-bar-height: 4rem;
 }
 
 body {
   --tw-bg-opacity: 1;
-    background-color: rgba(31,41,55,var(--tw-bg-opacity));
+  background-color: rgba(31,41,55,var(--tw-bg-opacity));
+  margin: unset;
 }
 
 

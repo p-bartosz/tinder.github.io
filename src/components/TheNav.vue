@@ -58,15 +58,13 @@ nav {
   z-index: 20;
 
   > div {
-    max-width: 36rem;
     display: flex;
     align-content: center;
     align-items: center;
     justify-content: space-between;
-    height: 4rem;
+    height: var(--nav-bar-height);
     padding-left: 1rem;
     padding-right: 1rem;
-    width: 100%;
     margin-right: auto;
     margin-left: auto;
   }

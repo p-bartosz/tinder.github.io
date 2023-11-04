@@ -1,6 +1,10 @@
 <template>
-  <Nav />
-  <RouterView/>
+  <div>
+    <Nav class="nav-bar" />
+    <div class="main-content">
+      <RouterView/>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -13,3 +17,20 @@ export default defineComponent({
   components: { Nav, Chat },
 });
 </script>
+
+<style scoped lang="scss">
+@import "libs/styles/responsiveness.scss"; 
+
+.main-content {
+  margin: var(--nav-bar-height) auto 0 auto;
+  padding: 10px;
+
+  @include min-tablet {
+    width: 768px;
+  }
+
+  @include min-mini-desktop {
+    width: 990px;
+  }
+}
+</style>

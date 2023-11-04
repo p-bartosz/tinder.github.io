@@ -1,0 +1,89 @@
+// RWD thresholds
+$xxs-max-width: 400px; // extra-small mobile
+$xs-max-width: 767px; // mobile
+
+$sm-min-width: 768px; // tablet
+$sm-max-width: 991px; // tablet
+
+$md-min-width: 992px; // mini-desktop
+$md-max-width: 1199px; // mini-desktop
+
+$lg-min-width: 1200px; // desktop
+
+@mixin max-extra-small-mobile() {
+  @media (max-width: $xxs-max-width) {
+    @content;
+  }
+}
+
+@mixin max-mobile() {
+  @media (max-width: $xs-max-width) {
+    @content;
+  }
+}
+
+@mixin max-tablet() {
+  @media (max-width: $sm-max-width) {
+    @content;
+  }
+}
+
+@mixin max-mini-desktop() {
+  @media (max-width: $md-max-width) {
+    @content;
+  }
+}
+
+@mixin min-tablet() {
+  @media (min-width: $sm-min-width) {
+    @content;
+  }
+}
+
+@mixin min-mini-desktop() {
+  @media (min-width: $md-min-width) {
+    @content;
+  }
+}
+
+@mixin min-desktop() {
+  @media (min-width: $lg-min-width) {
+    @content;
+  }
+}
+
+@mixin min-size($class) {
+  @if $class == sm {
+    @media (min-width: $sm-min-width) {
+      @content;
+    }
+  } @else if $class == md {
+    @media (min-width: $md-min-width) {
+      @content;
+    }
+  } @else if $class == lg {
+    @media (min-width: $lg-min-width) {
+      @content;
+    }
+  } @else {
+    @warn "min-size mixin supports: xs, sm, md, lg";
+  }
+}
+
+@mixin max-size($class) {
+  @if $class == xs {
+    @media (max-width: $xs-max-width) {
+      @content;
+    }
+  } @else if $class == sm {
+    @media (max-width: $sm-max-width) {
+      @content;
+    }
+  } @else if $class == md {
+    @media (max-width: $md-max-width) {
+      @content;
+    }
+  } @else {
+    @warn "max-size mixin supports: xs, sm, md, lg";
+  }
+}

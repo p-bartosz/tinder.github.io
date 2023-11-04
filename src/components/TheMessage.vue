@@ -2,7 +2,7 @@
   <div class="message">
     <span v-if="!sender">{{ name }}</span>
     <div class="flex" :class="sender ? 'flex-row-reverse' : ''">
-      <Avatar class="mt-1" :src="photoUrl" />
+      <TheAvatar class="mt-1" :src="photoUrl" />
       <div class="text w-3/4" :class="sender ? 'bg-green-800' : 'bg-gray-700'">
         <slot />
       </div>
@@ -12,9 +12,10 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Avatar from "./TheAvatar.vue";
+import TheAvatar from "./TheAvatar.vue";
 export default defineComponent({
-  components: { Avatar },
+  name: 'TheMessage',
+  components: { TheAvatar },
   props: {
     name: { type: String, default: "" },
     photoUrl: { type: String, default: "" },
