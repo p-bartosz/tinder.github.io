@@ -1,66 +1,68 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
-
-  <GMapMap
-      :center="center"
-      :zoom="7"
-      map-type-id="terrain"
-      style="width: 500px; height: 300px"
-  >
-    <!-- <GMapCluster
-      :setMaxZoom="() => {}"
-    > -->
-      <GMapMarker
-          :key="index"
-          v-for="(m, index) in markers"
-          :position="m.position"
-          :clickable="true"
-          :draggable="true"
-          @click="center=m.position"
-      />
-    <!-- </GMapCluster> -->
-  </GMapMap>
-  <button @click="getLocation">weź lokalizację</button>
+  <h2>Login</h2>
+  <form class="form" @submit.prevent="register">
+    <input
+      type="email"
+      placeholder="Email address..."
+      v-model="email"
+    />
+    <input
+      type="password"
+      placeholder="password..."
+      v-model="password"
+    />
+    <button type="submit">Log in</button>
+  </form>
 </template>
 
 <script lang="ts">
+import AuthService from '@/firebase/AuthService';
+import { UserCredential } from '@firebase/auth';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   data() {
     return {
-      userPosition: {
-        lat: ref(0),
-        lng: ref(0)
-      },
-      center: {lat: 51.093048, lng: 6.842120},
-      markers: [
-        {
-          position: {
-            lat: 51.093048, lng: 6.842120
-          },
-        },
-        {
-          position: {
-            lat: 52, lng: 10
-          },
-        }
-      ]
+      email: '',
+      password: ''
     }
   },
   methods: {
-    getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          // this.userPosition.lat = position.coords.latitude;
-          // this.userPosition.lng = position.coords.longitude;
-          this.markers[1].position.lat = position.coords.latitude;
-          this.markers[1].position.lng = position.coords.longitude;
+    register() {
+      AuthService.signInWithEmailAndPassword(this.email, this.password)
+        .then((userCredential: UserCredential) => {
+          console.log('userCredential', userCredential);
         })
-      }
-    }
+        .catch((err) => {
+          const errorCode = err.code;
+          const errorMessage = err.message;
+          console.log(errorCode, errorMessage);
+          
+        });
+    },
   }
 });
 </script>
+
+<style scoped lang="scss">
+h2 {
+  margin: 0 0 10px;
+  color: #fff;
+  text-align: center;
+}
+
+.form {
+  box-shadow: #fff 0 0 5px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+
+  > input {
+    max-width: 400px;
+  }
+
+  > button {
+    margin-top: 15px;
+  }
+}
+</style>

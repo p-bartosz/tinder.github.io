@@ -8,8 +8,8 @@ import {
   signOut,
   Auth,
   createUserWithEmailAndPassword,
-  EmailAuthProvider,
   UserCredential,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import './FirebaseService'
 
@@ -36,8 +36,10 @@ class AuthService {
 
   async createUserWithEmailAndPassword(email: string, password: string): Promise<UserCredential> {
     return createUserWithEmailAndPassword(this.auth, email, password);
-    // const emailProvider = new EmailAuthProvider();
-    // await signInWithPopup(this.auth, emailProvider);
+  }
+
+  async signInWithEmailAndPassword(email: string, password: string): Promise<UserCredential> {
+    return signInWithEmailAndPassword(this.auth, email, password)
   }
 
   async signOut(): Promise<void> {

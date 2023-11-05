@@ -1,12 +1,13 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import Chat from '../pages/TheChat.vue'
-import Register from '../pages/Register.vue'
+import ChatPage from '../pages/TheChat.vue'
+import RegisterPage from '../pages/Register.vue'
+import LoginPage from '../pages/Login.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'chat',
-    component: Chat
+    component: ChatPage
   },
   {
     path: '/about',
@@ -17,9 +18,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../pages/AboutView.vue')
   },
   {
+    path: '/login',
+    name: 'login',
+    component: () => LoginPage
+  },
+  {
     path: '/register',
     name: 'register',
-    component: () => Register
+    component: () => RegisterPage
   },
 ]
 
