@@ -1,6 +1,5 @@
 <template>
-  <h2>Login</h2>
-  <form class="form" @submit.prevent="register">
+  <form class="form" @submit.prevent="loginWithEmailAndPassword">
     <input
       type="email"
       placeholder="Email address..."
@@ -16,11 +15,12 @@
 </template>
 
 <script lang="ts">
-import AuthService from '@/firebase/AuthService';
-import { UserCredential } from '@firebase/auth';
-import { defineComponent, ref } from 'vue';
+import AuthService from "../../firebase/AuthService";
+import { defineComponent } from "vue";
+import { UserCredential } from "@firebase/auth";
 
 export default defineComponent({
+  name: 'EmailPasswordSignIn',
   data() {
     return {
       email: '',
@@ -28,7 +28,7 @@ export default defineComponent({
     }
   },
   methods: {
-    register() {
+    loginWithEmailAndPassword() {
       AuthService.signInWithEmailAndPassword(this.email, this.password)
         .then((userCredential: UserCredential) => {
           console.log('userCredential', userCredential);
@@ -39,18 +39,12 @@ export default defineComponent({
           console.log(errorCode, errorMessage);
           
         });
-    },
+    }
   }
 });
 </script>
 
-<style scoped lang="scss">
-h2 {
-  margin: 0 0 10px;
-  color: #fff;
-  text-align: center;
-}
-
+<style lang="scss">
 .form {
   box-shadow: #fff 0 0 5px;
   padding: 15px;

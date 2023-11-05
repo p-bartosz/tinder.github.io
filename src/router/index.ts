@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import ChatPage from '../pages/TheChat.vue'
 import RegisterPage from '../pages/Register.vue'
-import LoginPage from '../pages/Login.vue'
+import LoginPage from '../pages/LoginPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {

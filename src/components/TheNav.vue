@@ -1,7 +1,9 @@
 <template>
   <nav>
     <div>
-      <h1><strong>Vue</strong> Chat App</h1>
+      <RouterLink to="/">
+        <h1><strong>Vue</strong> Chat App</h1>
+      </RouterLink>
 
       <div v-if="isLogin" class="login">
         <TheAvatar v-if="user?.photoURL" :src="user.photoURL" />
@@ -10,22 +12,36 @@
         </button>
       </div>
 
-      <button v-else class="bg-green-500 hover:bg-green-600" @click="signIn">
+      <button v-else class="bg-green-500 hover:bg-green-600" @click="openSignInModal">
         Sign in
       </button>
     </div>
   </nav>
+
+  <teleport to="body">
+    <div v-if="modalOpen" class="dialog-backdrop" @click="closeSignInModal">
+      <dialog class="modal" open @click.stop>
+        <LoginForm @close-dialog="closeSignInModal"/>
+      </dialog>
+    </div>
+  </teleport>
 </template>
 
 <script lang="ts">
 import TheAvatar from "./TheAvatar.vue";
 import AuthService from "../firebase/AuthService";
+import LoginForm from "./sign-in-up/LoginForm.vue";
 import { defineComponent } from "vue";
 import { User } from "@firebase/auth";
 
 export default defineComponent({
   name: 'TheNav',
-  components: { TheAvatar: TheAvatar },
+  components: { TheAvatar, LoginForm },
+  data() {
+    return {
+      modalOpen: false
+    }
+  },
   computed: {
     isLogin(): boolean {
       return AuthService.isLogin?.value;
@@ -35,8 +51,11 @@ export default defineComponent({
     },
   },
   methods: {
-    signIn(): void {
-      AuthService.signIn();
+    openSignInModal(): void {
+      this.modalOpen = true;
+    },
+    closeSignInModal(): void {
+      this.modalOpen = false;
     },
     signOut(): void {
       AuthService.signOut();
@@ -45,7 +64,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 
 nav {
   position: fixed;
@@ -99,5 +118,25 @@ nav {
     background-color: transparent;
     background-image: none;
   }
-} 
+}
+
+dialog {
+  border: none !important;
+  border-radius: calc(5px * var(--ratio));
+  box-shadow: 0 0 #0000, 0 0 #0000, 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 1.6rem;
+  max-width: 400px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dialog-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: hsla(0, 0%, 0%, .5);
+  z-index: 100;
+}
 </style>

@@ -12,6 +12,7 @@
       v-model="password"
     />
     <button type="submit">Register</button>
+    <p>Do you already have an account? Go to <router-link to="/login">Login Page</router-link></p>
   </form>
 </template>
 
@@ -64,5 +65,9 @@ h2 {
   > button {
     margin-top: 15px;
   }
+}
+
+p {
+  color: #fff;
 }
 </style>
