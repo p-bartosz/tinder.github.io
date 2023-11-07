@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import ChatPage from '../pages/TheChat.vue'
 import RegisterPage from '../pages/Register.vue'
 import LoginPage from '../pages/LoginPage.vue'
+import { notAuthorisedOnly } from '@/guards/is-signed-in-out.guard'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,18 +21,20 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'login',
+    beforeEnter: [ notAuthorisedOnly ],
     component: () => LoginPage
   },
   {
     path: '/register',
     name: 'register',
+    beforeEnter: [ notAuthorisedOnly ],
     component: () => RegisterPage
   },
-]
+];
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes
-})
+});
 
 export default router

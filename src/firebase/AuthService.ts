@@ -12,12 +12,17 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import './FirebaseService'
+import router from "@/router";
 
 class AuthService {
   private auth: Auth = getAuth();
   user: Ref<User | null> = ref<User | null>(null);
   private unsubscribe = onAuthStateChanged(this.auth, (_user) => {
     this.user.value = _user;
+    const currentRoute = router.currentRoute.value;
+    router.push('/').then(() => {
+      router.push(currentRoute);
+    });
     console.log("_user", _user);
   });
 
