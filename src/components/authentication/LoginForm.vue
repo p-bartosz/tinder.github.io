@@ -7,19 +7,25 @@
     </router-link>
     if you don't have an account
   </p>
+  <p>
+    Or login anonimously
+    <AnonymousSignIn/>
+  </p>
   <GoogleSignIn/>
 </template>
 
 <script lang="ts">
 import EmailPasswordSignIn from "./EmailPasswordSignIn.vue";
 import GoogleSignIn from "./GoogleSignIn.vue";
+import AnonymousSignIn from "./AnonymousSignIn.vue";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: 'LoginForm',
   components: {
     EmailPasswordSignIn,
-    GoogleSignIn
+    GoogleSignIn,
+    AnonymousSignIn
   },
   emits: ['closeDialog']
 });

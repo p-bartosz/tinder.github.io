@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import LoginForm from '../components/sign-in-up/LoginForm.vue'
+import LoginForm from '../components/authentication/LoginForm.vue'
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({

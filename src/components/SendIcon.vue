@@ -17,8 +17,7 @@
 <style scoped lang="scss">
 .icon-send {
   color: rgba(107,114,128,var(--tw-text-opacity));
-  width: 3rem;
-  height: 3rem;
+  height: var(--footer-height);
   margin-right: 0.5rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;

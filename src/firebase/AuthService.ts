@@ -10,6 +10,7 @@ import {
   createUserWithEmailAndPassword,
   UserCredential,
   signInWithEmailAndPassword,
+  signInAnonymously,
 } from "firebase/auth";
 import './FirebaseService'
 import router from "@/router";
@@ -34,7 +35,7 @@ class AuthService {
     return computed(() => this.user.value !== null);
   }
 
-  async signIn(): Promise<void> {
+  async signInWithGoogle(): Promise<void> {
     const googleProvider = new GoogleAuthProvider();
     await signInWithPopup(this.auth, googleProvider);
   }
@@ -45,6 +46,10 @@ class AuthService {
 
   async signInWithEmailAndPassword(email: string, password: string): Promise<UserCredential> {
     return signInWithEmailAndPassword(this.auth, email, password)
+  }
+
+  async signInAnonymously(): Promise<UserCredential> {
+    return signInAnonymously(this.auth)
   }
 
   async signOut(): Promise<void> {

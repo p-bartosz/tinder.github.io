@@ -33,7 +33,7 @@ class ChatService {
     if (!user?.value || !AuthService.isLogin.value) return;
     const { photoURL, uid, displayName, email } = user.value;
     await addDoc(collection(FirebaseService.firestore, MESSAGES_PATH), {
-      userName: displayName || email,
+      userName: displayName || email || uid,
       userId: uid,
       userPhotoURL: photoURL,
       text: text,

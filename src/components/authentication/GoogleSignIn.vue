@@ -10,7 +10,7 @@ export default defineComponent({
   name: 'GoogleSignIn',
   methods: {
     signInWithGmail(): void {
-      AuthService.signIn();
+      AuthService.signInWithGoogle();
     },
   }
 });

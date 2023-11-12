@@ -30,7 +30,7 @@
 <script lang="ts">
 import TheAvatar from "./TheAvatar.vue";
 import AuthService from "../firebase/AuthService";
-import LoginForm from "./sign-in-up/LoginForm.vue";
+import LoginForm from "./authentication/LoginForm.vue";
 import { defineComponent } from "vue";
 import { User } from "@firebase/auth";
 

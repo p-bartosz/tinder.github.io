@@ -22,7 +22,7 @@ export default defineComponent({
 @import "libs/styles/responsiveness.scss"; 
 
 .main-content {
-  margin: var(--nav-bar-height) auto 0 auto;
+  margin: var(--nav-bar-height) auto calc(var(--footer-height) + 20px) auto;
   padding: 10px;
 
   @include min-tablet {

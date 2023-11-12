@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { ref, watch, nextTick, defineComponent } from "vue";
+import { ref, watch, nextTick, defineComponent, onMounted, Ref } from "vue";
 import ChatService from "../firebase/ChatService";
 import AuthService from "../firebase/AuthService";
 
@@ -37,16 +37,27 @@ import TheMessage from "../components/TheMessage.vue";
 
 export default defineComponent({
   components: { TheMessage, SendIcon },
+  methods: {
+    scrollToLastMessage(bottom: Ref<HTMLElement | null>): void {
+      nextTick(() => {
+        bottom?.value?.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+  },
   setup() {
     const messages = ChatService.messages;
     const sendMessage = ChatService.sendMessage;
+    const bottom = ref<HTMLElement | null>(null);
 
-    const bottom = ref(null);
+    onMounted(() => {
+      bottom.value = document.querySelector('.bottom') as HTMLElement;
+    });
+
     watch(
       messages,
       () => {
         nextTick(() => {
-          // bottom.value?.scrollIntoView({ behavior: "smooth" });
+          bottom?.value?.scrollIntoView({ behavior: "smooth" });
         });
       },
       { deep: true }
@@ -69,8 +80,6 @@ export default defineComponent({
   width: 100%;
   margin-right: auto;
   margin-left: auto;
-
-  margin-top: 5rem;
   width: 100%;
   margin-right: auto;
   margin-left: auto;
