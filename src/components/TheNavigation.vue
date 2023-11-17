@@ -1,50 +1,46 @@
 <template>
-  <nav>
-    <div>
-      <RouterLink to="/">
-        <h1><strong>Vue</strong> Chat App</h1>
-      </RouterLink>
-
-      <TheNavigation />
-
-      <div v-if="isLogin" class="login">
-        <TheAvatar v-if="user?.photoURL" :src="user.photoURL" />
-        <button class="text-gray-400 hover:text-white" @click="signOut">
-          Sign Out
-        </button>
-      </div>
-
-      <button v-else class="bg-green-500 hover:bg-green-600" @click="openSignInModal">
-        Sign in
-      </button>
+  <div class="dropdown">
+    <button class="dropbtn">Dropdown</button>
+    <div class="dropdown-content">
+      <RouterLink v-for="ROUTE of ROUTES" :to="ROUTE.path">{{ ROUTE.name }}</RouterLink>
     </div>
-  </nav>
-
-  <teleport to="body">
-    <div v-if="modalOpen" class="dialog-backdrop" @click="closeSignInModal">
-      <dialog class="modal" open @click.stop>
-        <LoginForm @close-dialog="closeSignInModal"/>
-      </dialog>
-    </div>
-  </teleport>
+  </div>
 </template>
 
 <script lang="ts">
 import TheAvatar from "./TheAvatar.vue";
 import AuthService from "../firebase/AuthService";
 import LoginForm from "./authentication/LoginForm.vue";
-import TheNavigation from "./TheNavigation.vue";
 import { defineComponent } from "vue";
 import { User } from "@firebase/auth";
 import { ROUTS } from "@/router/routs";
 
+const ROUTES = [
+  {
+    name: 'Home',
+    path: ROUTS.MAIN
+  },
+  {
+    name: 'Map',
+    path: ROUTS.MAP
+  },
+  {
+    name: 'Contact',
+    path: ROUTS.LOGIN
+  },
+  {
+    name: 'Sign in',
+    path: ROUTS.REGISTER
+  }
+];
+
 export default defineComponent({
-  name: 'TheNav',
-  components: { TheAvatar, LoginForm, TheNavigation },
+  name: 'TheNavigation',
+  components: { TheAvatar, LoginForm },
   data() {
     return {
       modalOpen: false,
-      ROUTS
+      ROUTES
     }
   },
   computed: {
@@ -70,6 +66,48 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.dropbtn {
+  background-color: var(--color-button);
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  &:hover {
+    .dropdown-content {
+      display: block;
+    }
+
+    .dropbtn {
+      background-color: #3e8e41;
+    }
+  }
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+
+  a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+
+    &:hover {
+      background-color: #ddd;
+    }
+  }
+}
 
 nav {
   position: fixed;
